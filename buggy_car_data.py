@@ -100,10 +100,10 @@ def _decode_img(filename, label):
 	#print(image_decoded);
 	#image_resized = tf.image.resize_image_with_crop_or_pad(image_decoded, 128, 96)
 	#image_resized = tf.image.resize_images(image_decoded, [128, 96])
-	
-	
 	return image_decoded, label
 
+def _convert_label(label):
+	return int(float(label)/36. + 10)
 
 def _images_L_bmp(filename):
 	filename = filename.replace('images/', 'images_L_bmp/');
@@ -117,6 +117,7 @@ def features():
 def train_dataset():
 	(trainX, trainY) = load_train_data()
 	trainX = list(map(_images_L_bmp, trainX))
+	trainY = list(map(_convert_label, trainY))
 	filenames = tf.constant(trainX, name='filenames');
 	labels = tf.constant(trainY, name='labels');
 	dataset = tf.data.Dataset.from_tensor_slices((filenames, labels))
@@ -126,6 +127,7 @@ def train_dataset():
 def test_dataset():
 	(testX, testY) = load_test_data()
 	testX = list(map(_images_L_bmp, testX))
+	testY = list(map(_convert_label, testY))
 	filenames = tf.constant(testX, name='filenames');
 	labels = tf.constant(testY, name='labels');
 	dataset = tf.data.Dataset.from_tensor_slices((filenames, labels))
@@ -146,7 +148,8 @@ def test_input_fn(batch_size):
 	return dataset
 
 if __name__ == '__main__':
-	dataset = train_input_fn(50);
+	#dataset = train_input_fn(50);
+	#print(dataset);
 	'''
 	TypeError: 
 	<BatchDataset 
@@ -158,8 +161,10 @@ if __name__ == '__main__':
 
 	'''
 	print();
-	print(dataset);
-	#print(dir(dataset)) ;
-	#print('output_classes: ', dataset.output_classes);
-	#print('output_shapes: ', dataset.output_shapes);
+	l1 = list(features());
+	l1.sort();
+	l2 = list(map(_convert_label, l1)) ;
+	print(l1);
+	print(l2);
+	
 
