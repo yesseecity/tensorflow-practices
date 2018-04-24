@@ -126,8 +126,8 @@ def train_dataset():
 def test_dataset():
 	(testX, testY) = load_test_data()
 	testX = list(map(_images_L_bmp, testX))
-	filenames = tf.constant(testX);
-	labels = tf.constant(testY);
+	filenames = tf.constant(testX, name='filenames');
+	labels = tf.constant(testY, name='labels');
 	dataset = tf.data.Dataset.from_tensor_slices((filenames, labels))
 	dataset = dataset.map(_decode_img)
 	return dataset;
