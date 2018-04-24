@@ -117,7 +117,7 @@ def features():
 def train_dataset():
 	(trainX, trainY) = load_train_data()
 	trainX = list(map(_images_L_bmp, trainX))
-	trainY = list(map(_convert_label, trainY))
+	#trainY = list(map(_convert_label, trainY))
 	filenames = tf.constant(trainX, name='filenames');
 	labels = tf.constant(trainY, name='labels');
 	dataset = tf.data.Dataset.from_tensor_slices((filenames, labels))
@@ -127,7 +127,7 @@ def train_dataset():
 def test_dataset():
 	(testX, testY) = load_test_data()
 	testX = list(map(_images_L_bmp, testX))
-	testY = list(map(_convert_label, testY))
+	#testY = list(map(_convert_label, testY))
 	filenames = tf.constant(testX, name='filenames');
 	labels = tf.constant(testY, name='labels');
 	dataset = tf.data.Dataset.from_tensor_slices((filenames, labels))
@@ -148,23 +148,25 @@ def test_input_fn(batch_size):
 	return dataset
 
 if __name__ == '__main__':
-	#dataset = train_input_fn(50);
-	#print(dataset);
-	'''
-	TypeError: 
-	<BatchDataset 
-		shapes: (<unknown>, (?,)), 
-		types: (tf.uint8, tf.int32)
-	>
-	is not a callable object
-
-
-	'''
-	print();
 	l1 = list(features());
 	l1.sort();
-	l2 = list(map(_convert_label, l1)) ;
-	print(l1);
-	print(l2);
+	print('\ntrain data features:\n\t', l1);
 	
-
+	l2 = list(map(_convert_label, l1));
+	print('\nconvert to 0 to 20:\n\t', l2);
+	
+	
+	print();
+	(trainX, trainY) = load_train_data();
+	(testX, testY) = load_test_data();
+	for value in trainY:
+		if (type(value) != type(123)) :
+			print(value)
+			break;
+	print('In this time, I sure every "trainY" value is type int');
+	
+	for v in testY:
+		if (type(v) != type(123)) :
+			print(v)
+	print('In this time, I sure every "testY" value is type int');
+		
