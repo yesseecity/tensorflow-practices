@@ -1,6 +1,6 @@
 import tensorflow as tf;
 import numpy as np;
-import buggy_car_data;
+import buggy_car_data as car;
 
 batch_size = 10
 
@@ -155,8 +155,8 @@ def cnn_model_fn(features, labels, mode):
 
 def main(unused_argv):
 	# Load training and eval data
-	train_input_fn = buggy_car_data.train_input_fn(batch_size);
-	eval_input_fn = buggy_car_data.test_input_fn(batch_size);
+	train_input_fn = car.train_input_fn(batch_size);
+	eval_input_fn = car.test_input_fn(batch_size);
 
 	# Create the Estimator
 	buggy_car_classifier = tf.estimator.Estimator(
@@ -173,7 +173,7 @@ def main(unused_argv):
 	# Train the model
 	buggy_car_classifier.train(
 		#input_fn=train_input_fn,
-		input_fn= lambda:buggy_car_data.train_input_fn(batch_size),
+		input_fn= lambda:car.train_input_fn(batch_size),
 		#steps=20000,
 		steps=1,
 		hooks=[logging_hook])

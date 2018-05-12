@@ -1,7 +1,7 @@
-import os
-import pandas as pd
+import os;
+import pandas as pd;
 import tensorflow as tf;
-csvColumnNames = ['imageFolder', 'imageName', 'throOUT', 'rudoOUT']
+csvColumnNames = ['imageFolder', 'imageName', 'throOUT', 'rudoOUT'];
 
 def load_train_data():
 	trainPath = os.getcwd()+"/train-data";
